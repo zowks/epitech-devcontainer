@@ -1,0 +1,19 @@
+name: Publish docker image to ghcr.io
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build and publish the Docker image
+        run: |
+          docker build -t ghcr.io/zowks/epitech-devcontainer:latest .
+          docker login ghcr.io -u zowks -p ${{ secrets.GHCR_PAT }}
+          docker push ghcr.io/zowks/epitech-devcontainer:latest
