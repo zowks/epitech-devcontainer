@@ -1,4 +1,5 @@
 FROM fedora:38
+LABEL org.opencontainers.image.source="https://github.com/zowks/epitech-devcontainer"
 
 RUN dnf upgrade -y \
     && dnf install -y dnf-plugins-core \
