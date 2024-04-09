@@ -142,3 +142,7 @@ RUN curl -sSL "https://get.haskellstack.org/" | sh \
     && dnf clean all
 
 ENV LANG=en_US.utf8 LANGUAGE=en_US:en LC_ALL=en_US.utf8 PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+
+RUN groupadd --gid 1000 tek \
+    && useradd tek --uid 1000 --gid tek
+USER tek
