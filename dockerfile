@@ -1,11 +1,12 @@
 FROM fedora:38
+LABEL maintainer="zowks <https://github.com/zowks>"
 LABEL org.opencontainers.image.source="https://github.com/zowks/epitech-devcontainer"
 
-RUN dnf upgrade -y \
-    && dnf install -y dnf-plugins-core \
-    && dnf clean all
+COPY ./dnf.conf /etc/dnf/dnf.conf
 
-RUN dnf install --refresh --setopt=tsflags= -y \
+RUN dnf upgrade -y \
+    && curl -sSL "https://get.haskellstack.org/" | sh \
+    && dnf install -y \
     allegro5 \
     allegro5-devel.x86_64 \
     autoconf \
@@ -137,9 +138,6 @@ RUN curl -sSL "https://github.com/Snaipe/Criterion/releases/download/v2.4.2/crit
 
 RUN echo "/usr/local/lib" > /etc/ld.so.conf.d/criterion.conf
 RUN ldconfig
-
-RUN curl -sSL "https://get.haskellstack.org/" | sh \
-    && dnf clean all
 
 ENV LANG=en_US.utf8 LANGUAGE=en_US:en LC_ALL=en_US.utf8 PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
