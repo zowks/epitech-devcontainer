@@ -1,127 +1,127 @@
 FROM fedora:38
 LABEL maintainer="zowks <https://github.com/zowks>"
 LABEL org.opencontainers.image.source="https://github.com/zowks/epitech-devcontainer"
+ARG TARGETPLATFORM
 
 COPY ./dnf.conf /etc/dnf/dnf.conf
 
 RUN dnf upgrade -y \
-    && curl -sSL "https://get.haskellstack.org/" | sh \
+    && if [ $TARGETPLATFORM == "linux/amd64" ] ; then curl -sSL "https://get.haskellstack.org/" | sh ; fi \
     && dnf install -y \
     allegro5 \
-    allegro5-devel.x86_64 \
+    allegro5-devel \
     autoconf \
     automake \
     bc \
     boost \
-    boost-devel.x86_64 \
+    boost-devel \
     boost-graph \
     boost-math \
-    boost-static.x86_64 \
+    boost-static \
     ca-certificates.noarch \
     cargo \
     clang-analyzer \
-    clang.x86_64 \
-    cmake.x86_64 \
-    CSFML-devel.x86_64 \
-    CSFML.x86_64 \
-    curl.x86_64 \
+    clang \
+    cmake \
+    CSFML-devel \
+    CSFML \
+    curl \
     diffutils \
-    elfutils-libelf-devel.x86_64 \
+    elfutils-libelf-devel \
     fish \
-    gcc-c++.x86_64 \
-    gcc.x86_64 \
-    gdb.x86_64 \
+    gcc-c++ \
+    gcc \
+    gdb \
     ghc \
     git \
-    glibc-devel.x86_64 \
-    glibc-locale-source.x86_64 \
-    glibc.x86_64 \
-    gmp-devel.x86_64 \
+    glibc-devel \
+    glibc-locale-source \
+    glibc \
+    gmp-devel \
     java-17-openjdk \
     java-17-openjdk-devel \
-    ksh.x86_64 \
+    ksh \
     langpacks-en \
-    libasan.x86_64 \
-    libcaca-devel.x86_64 \
-    libcaca.x86_64 \
+    libasan \
+    libcaca-devel \
+    libcaca \
     libconfig \
     libconfig-devel \
-    libjpeg-turbo-devel.x86_64 \
+    libjpeg-turbo-devel \
     libtsan \
-    libtsan.x86_64 \
-    libubsan.x86_64 \
+    libubsan \
     libuuid libuuid-devel \
-    libX11-devel.x86_64 \
-    libXcursor-devel.x86_64 \
-    libXext-devel.x86_64 \
-    libXi-devel.x86_64 \
-    libXinerama-devel.x86_64 \
-    libXrandr-devel.x86_64 \
-    llvm-devel.x86_64 \
-    llvm.x86_64 \
-    ltrace.x86_64 \
-    make.x86_64 \
-    nasm.x86_64 \
+    libX11-devel \
+    libXcursor-devel \
+    libXext-devel \
+    libXi-devel \
+    libXinerama-devel \
+    libXrandr-devel \
+    llvm-devel \
+    llvm \
+    ltrace \
+    make \
+    nasm \
     nc \
-    ncurses-devel.x86_64 \
+    ncurses-devel \
     ncurses-libs \
-    ncurses.x86_64 \
-    net-tools.x86_64 \
+    ncurses \
+    net-tools \
     nodejs \
-    openal-soft-devel.x86_64 \
+    openal-soft-devel \
     openssl-devel \
     patch \
-    php-bcmath.x86_64 \
-    php-cli.x86_64 \
-    php-devel.x86_64 \
-    php-devel.x86_64 \
-    php-gd.x86_64 \
+    php-bcmath \
+    php-cli \
+    php-devel \
+    php-devel \
+    php-gd \
     php-gettext-gettext.noarch \
-    php-mbstring.x86_64 \
-    php-mysqlnd.x86_64 \
-    php-pdo.x86_64 \
-    php-pdo.x86_64 \
+    php-mbstring \
+    php-mysqlnd \
+    php-pdo \
+    php-pdo \
     php-pear.noarch \
     php-phar-io-version.noarch \
     php-theseer-tokenizer.noarch \
-    php-xml.x86_64 \
-    php.x86_64 \
-    procps-ng.x86_64 \
-    python3-devel.x86_64 \
-    python3.x86_64 \
-    rlwrap.x86_64 \
-    ruby.x86_64 \
+    php-xml \
+    php \
+    procps-ng \
+    python3-devel \
+    python3 \
+    rlwrap \
+    ruby \
     rust \
     SDL2 \
     SDL2_gfx \
-    SDL2_gfx-devel.x86_64 \
-    SDL2_image-devel.x86_64 \
-    SDL2_image.x86_64 \
+    SDL2_gfx-devel \
+    SDL2_image-devel \
+    SDL2_image \
     SDL2_mixer \
-    SDL2_mixer-devel.x86_64 \
+    SDL2_mixer-devel \
     SDL2_ttf \
-    SDL2_ttf-devel.x86_64 \
-    SDL2-devel.x86_64 \
-    SDL2-static.x86_64 \
-    SFML-devel.x86_64 \
-    SFML.x86_64 \
-    strace.x86_64 \
-    sudo.x86_64 \
+    SDL2_ttf-devel \
+    SDL2-devel \
+    SDL2-static \
+    SFML-devel \
+    SFML \
+    strace \
+    sudo \
     systemd-devel \
-    tar.x86_64 \
-    tcsh.x86_64 \
-    tmux.x86_64 \
-    tree.x86_64 \
-    unzip.x86_64 \
-    valgrind.x86_64 \
+    tar \
+    tcsh \
+    tmux \
+    tree \
+    unzip \
+    valgrind \
     vim \
-    wget.x86_64 \
-    which.x86_64 \
-    xcb-util-image-devel.x86_64 \
-    xcb-util-image.x86_64 \
-    xz.x86_64 \
-    zip.x86_64 \
-    zsh.x86_64 \
+    wget \
+    which \
+    xcb-util-image-devel \
+    xcb-util-image \
+    xz \
+    zip \
+    zsh \
     && dnf clean all
 
 RUN python3 -m pip install --no-cache-dir --upgrade pip
