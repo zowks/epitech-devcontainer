@@ -142,5 +142,6 @@ RUN ldconfig
 ENV LANG=en_US.utf8 LANGUAGE=en_US:en LC_ALL=en_US.utf8 PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
 RUN groupadd --gid 1000 tek \
-    && useradd tek --uid 1000 --gid tek
+    && useradd tek --uid 1000 --gid tek --password "" \
+    && usermod -aG wheel tek
 USER tek
