@@ -13,6 +13,7 @@ RUN dnf upgrade -y \
     autoconf \
     automake \
     bc \
+    bear \
     boost \
     boost-devel \
     boost-graph \
@@ -20,8 +21,9 @@ RUN dnf upgrade -y \
     boost-static \
     ca-certificates.noarch \
     cargo \
-    clang-analyzer \
     clang \
+    clang-analyzer \
+    clang-tools-extra \
     cmake \
     CSFML-devel \
     CSFML \
@@ -61,6 +63,7 @@ RUN dnf upgrade -y \
     llvm \
     ltrace \
     make \
+    nano \
     nasm \
     nc \
     ncurses-devel \
@@ -145,3 +148,5 @@ RUN groupadd --gid 1000 tek \
     && useradd tek --uid 1000 --gid tek --password "" \
     && usermod -aG wheel tek
 USER tek
+
+RUN sh -c "$(curl -fsSL https://install.ohmyz.sh/)" "" --unattended
