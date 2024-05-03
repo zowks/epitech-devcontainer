@@ -99,6 +99,7 @@ SDL2-devel
 SDL2-static
 SFML-devel
 SFML
+stack
 strace
 sudo
 systemd-devel
