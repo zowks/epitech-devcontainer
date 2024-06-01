@@ -8,8 +8,8 @@ COPY ./dnf.packages /tmp/dnf.packages
 
 RUN dnf upgrade -y \
     && dnf install -y $(cat /tmp/dnf.packages) \
-    && if [ $TARGETPLATFORM == "linux/amd64" ] ; then stack upgrade --binary-only ; fi \
-    && dnf clean all \
+    && stack upgrade --binary-only \
+    || dnf clean all \
     && rm /tmp/dnf.packages
 
 RUN python3 -m pip install --no-cache-dir --upgrade pip
@@ -19,10 +19,13 @@ RUN localedef -i en_US -f UTF-8 en_US.UTF-8
 RUN npm install -g bun \
     && npm cache clean --force
 
-RUN curl -sSL "https://github.com/Snaipe/Criterion/releases/download/v2.4.2/criterion-2.4.2-linux-x86_64.tar.xz" -o /tmp/criterion.tar.xz \
-    && tar xf /tmp/criterion.tar.xz -C /tmp/ \
-    && cp -r /tmp/criterion-2.4.2/* /usr/local/ \
-    && rm -rf /tmp/*
+RUN git clone "https://github.com/Snaipe/Criterion.git" /tmp/criterion \
+    && cd /tmp/criterion \
+    && meson setup build \
+    && meson compile -C build \
+    && meson install -C build \
+    && ldconfig -N \
+    && rm -rf /tmp/criterion
 
 RUN echo "/usr/local/lib" > /etc/ld.so.conf.d/criterion.conf
 RUN ldconfig
