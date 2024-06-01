@@ -54,6 +54,7 @@ llvm-devel
 llvm
 ltrace
 make
+meson
 nano
 nasm
 nc
