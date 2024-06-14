@@ -25,10 +25,9 @@ RUN git clone "https://github.com/Snaipe/Criterion.git" /tmp/criterion \
     && meson compile -C build \
     && meson install -C build \
     && ldconfig -N \
-    && rm -rf /tmp/criterion
-
-RUN echo "/usr/local/lib" > /etc/ld.so.conf.d/criterion.conf
-RUN ldconfig
+    && rm -rf /tmp/criterion \
+    && echo "/usr/local/lib" > /etc/ld.so.conf.d/criterion.conf \
+    && ldconfig
 
 ENV LANG=en_US.utf8 LANGUAGE=en_US:en LC_ALL=en_US.utf8 PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
