@@ -1,3 +1,5 @@
+FROM ghcr.io/epitech/coding-style-checker:latest as coding-style-checker
+
 FROM fedora:38
 LABEL maintainer="zowks <https://github.com/zowks>"
 LABEL org.opencontainers.image.source="https://github.com/zowks/epitech-devcontainer"
@@ -29,6 +31,14 @@ RUN git clone "https://github.com/Snaipe/Criterion.git" /tmp/criterion \
 
 RUN echo "/usr/local/lib" > /etc/ld.so.conf.d/criterion.conf
 RUN ldconfig
+
+RUN git clone "https://github.com/Epitech/banana-vera.git" /tmp/banana-vera \
+    && cd /tmp/banana-vera \
+    && cmake . -DVERA_LUA=OFF -DPANDOC=OFF -DVERA_USE_SYSTEM_BOOST=ON \
+    && make -j \
+    && make install \
+    && rm -rf /tmp/banana-vera /usr/local/lib/vera++
+COPY --from=coding-style-checker /usr/local/lib/vera++ /usr/local/lib/vera++
 
 ENV LANG=en_US.utf8 LANGUAGE=en_US:en LC_ALL=en_US.utf8 PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
