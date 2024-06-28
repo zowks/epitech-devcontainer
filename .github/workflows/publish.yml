@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - dev
   workflow_dispatch:
 
 jobs:
@@ -29,4 +30,4 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ghcr.io/zowks/epitech-devcontainer:latest
+          tags: ghcr.io/zowks/epitech-devcontainer:${{ github.ref_name == 'master' && 'latest' || 'nightly' }}
