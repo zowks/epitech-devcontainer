@@ -7,16 +7,17 @@ ARG TARGETPLATFORM
 
 COPY ./dnf.conf /etc/dnf/dnf.conf
 COPY ./dnf.packages /tmp/dnf.packages
-
 RUN dnf upgrade -y \
     && dnf install -y $(cat /tmp/dnf.packages) \
     && stack upgrade --binary-only \
     || dnf clean all \
     && rm /tmp/dnf.packages
 
-RUN python3 -m pip install --no-cache-dir --upgrade pip
-RUN python3 -m pip install --no-cache-dir -Iv gcovr==6.0 pycryptodome==3.18.0 requests==2.31.0 pyte==0.8.1 numpy==1.25.2
-RUN localedef -i en_US -f UTF-8 en_US.UTF-8
+COPY ./python.packages /tmp/python.packages
+RUN python3 -m pip install --no-cache-dir --upgrade pip \
+    && python3 -m pip install --no-cache-dir -Iv $(cat /tmp/python.packages) \
+    && localedef -i en_US -f UTF-8 en_US.UTF-8 \
+    && rm /tmp/python.packages
 
 RUN npm install -g bun \
     && npm cache clean --force
