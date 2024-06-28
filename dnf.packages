@@ -54,6 +54,7 @@ llvm-devel
 llvm
 ltrace
 make
+meson
 nano
 nasm
 nc
@@ -104,6 +105,7 @@ strace
 sudo
 systemd-devel
 tar
+tcl-devel
 tcsh
 tmux
 tree
