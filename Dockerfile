@@ -41,6 +41,12 @@ RUN git clone "https://github.com/Epitech/banana-vera.git" /tmp/banana-vera \
     && rm -rf /tmp/banana-vera /usr/local/lib/vera++
 COPY --from=coding-style-checker /usr/local/lib/vera++ /usr/local/lib/vera++
 
+RUN git clone "https://github.com/Epitech/lambdananas.git" /tmp/lambdananas \
+    && cd /tmp/lambdananas \
+    && stack build \
+    && cp $(stack path --local-install-root)/bin/lambdananas-exe /usr/local/bin/lambdananas \
+    && rm -rf /root/.stack /tmp/lambdananas
+
 ENV LANG=en_US.utf8 LANGUAGE=en_US:en LC_ALL=en_US.utf8 PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
 RUN groupadd --gid 1000 tek \
