@@ -3,7 +3,6 @@ FROM ghcr.io/epitech/coding-style-checker:latest as coding-style-checker
 FROM fedora:38
 LABEL maintainer="zowks <https://github.com/zowks>"
 LABEL org.opencontainers.image.source="https://github.com/zowks/epitech-devcontainer"
-ARG TARGETPLATFORM
 
 COPY ./dnf.conf /etc/dnf/dnf.conf
 COPY ./dnf.packages /tmp/dnf.packages
@@ -44,7 +43,7 @@ COPY --from=coding-style-checker /usr/local/lib/vera++ /usr/local/lib/vera++
 RUN git clone "https://github.com/Epitech/lambdananas.git" /tmp/lambdananas \
     && cd /tmp/lambdananas \
     && stack build \
-    && cp $(stack path --local-install-root)/bin/lambdananas-exe /usr/local/bin/lambdananas \
+    && cp "$(stack path --local-install-root)"/bin/lambdananas-exe /usr/local/bin/lambdananas \
     && rm -rf /root/.stack /tmp/lambdananas
 
 ENV LANG=en_US.utf8 LANGUAGE=en_US:en LC_ALL=en_US.utf8 PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
