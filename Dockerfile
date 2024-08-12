@@ -9,10 +9,11 @@ LABEL org.opencontainers.image.source="https://github.com/zowks/epitech-devconta
 COPY ./apt.packages /tmp/apt.packages
 RUN yes | unminimize \
     && apt install -y $(cat /tmp/apt.packages) \
-    && stack upgrade --force-download \
     && rm /tmp/apt.packages
 
 RUN localedef -i en_US -f UTF-8 en_US.UTF-8
+
+RUN curl -sSL https://get.haskellstack.org/ | sh
 
 RUN npm install -g bun \
     && npm cache clean --force
