@@ -57,20 +57,6 @@ RUN userdel -r ubuntu \
     && usermod -aG sudo tek
 USER tek
 
-RUN git clone "https://github.com/Epitech/banana-vera.git" /tmp/banana-vera \
-    && cd /tmp/banana-vera \
-    && cmake . -DVERA_LUA=OFF -DPANDOC=OFF -DVERA_USE_SYSTEM_BOOST=ON \
-    && make -j \
-    && make install \
-    && rm -rf /tmp/banana-vera /usr/local/lib/vera++
-COPY --from=coding-style-checker /usr/local/lib/vera++ /usr/local/lib/vera++
-
-RUN git clone "https://github.com/Epitech/lambdananas.git" /tmp/lambdananas \
-    && cd /tmp/lambdananas \
-    && stack build \
-    && cp "$(stack path --local-install-root)"/bin/lambdananas-exe /usr/local/bin/lambdananas \
-    && rm -rf /root/.stack /tmp/lambdananas
-
 ENV LANG=en_US.utf8 LANGUAGE=en_US:en LC_ALL=en_US.utf8 PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
 RUN sh -c "$(curl -fsSL https://install.ohmyz.sh/)" "" --unattended
