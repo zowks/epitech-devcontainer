@@ -37,6 +37,7 @@ RUN git clone "https://github.com/Epitech/lambdananas.git" /tmp/lambdananas \
 FROM base
 RUN git clone "https://github.com/Snaipe/Criterion.git" /tmp/criterion \
     && cd /tmp/criterion \
+    && git checkout master \
     && meson setup build \
     && meson compile -C build \
     && meson install -C build \
