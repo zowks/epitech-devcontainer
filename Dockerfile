@@ -26,6 +26,12 @@ RUN git clone "https://github.com/Epitech/banana-vera.git" /tmp/banana-vera \
     && make -j \
     && make install
 
+# Build coding-style binary in parallel
+FROM base as coding-style
+COPY ./coding-style /tmp/coding-style
+RUN bun build --compile --minify --sourcemap --outfile coding-style src/main.ts \
+    && cp coding-style /usr/local/bin/coding-style
+
 # Build lambdananas binary in parallel
 FROM base AS lambdananas
 RUN git clone "https://github.com/Epitech/lambdananas.git" /tmp/lambdananas \
@@ -49,6 +55,7 @@ RUN git clone "https://github.com/Snaipe/Criterion.git" /tmp/criterion \
 # Merge previous stages work
 COPY --from=banana /usr/local/bin/vera++ /usr/local/bin/vera++
 COPY --from=coding-style-checker /usr/local/lib/vera++ /usr/local/lib/vera++
+COPY --from=coding-style /usr/local/bin/coding-style /usr/local/bin/coding-style
 COPY --from=lambdananas /usr/local/bin/lambdananas /usr/local/bin/lambdananas
 
 # Create tek user and finalize image

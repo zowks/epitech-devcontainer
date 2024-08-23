@@ -27,4 +27,3 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: false
-          tags: ghcr.io/zowks/epitech-devcontainer:latest
