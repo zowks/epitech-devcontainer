@@ -17,8 +17,8 @@ RUN localedef -i en_US -f UTF-8 en_US.UTF-8
 
 RUN curl -sSL https://get.haskellstack.org/ | sh
 
-RUN npm install -g bun \
-    && npm cache clean --force
+RUN curl -fsSL https://bun.sh/install | bash \
+    && mv /root/.bun/bin/bun /usr/local/bin/bun
 
 # Build Epitech's vera++ binary in parallel
 FROM base AS banana
