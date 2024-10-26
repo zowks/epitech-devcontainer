@@ -7,8 +7,10 @@ LABEL maintainer="zowks <https://github.com/zowks>"
 LABEL org.opencontainers.image.source="https://github.com/zowks/epitech-devcontainer"
 
 COPY ./apt.packages /tmp/apt.packages
-RUN yes | unminimize \
-    && apt install -y $(cat /tmp/apt.packages) \
+RUN apt update \
+    && apt install --no-install-recommends -y $(cat /tmp/apt.packages) \
+    && yes | unminimize \
+    && rm -rf /var/lib/apt/lists/* \
     && rm /tmp/apt.packages
 
 RUN localedef -i en_US -f UTF-8 en_US.UTF-8
