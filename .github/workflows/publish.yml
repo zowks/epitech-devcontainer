@@ -2,19 +2,15 @@ name: Build & Push docker image to ghcr.io
 
 on:
   push:
-    branches:
-      - main
-      - dev
   workflow_dispatch:
 
 env:
-  IMAGE_NAME: ghcr.io/zowks/epitech-devcontainer
-  IMAGE_TAG: ${{ github.ref_name == 'main' && 'latest' || 'nightly' }}
-
+  IMAGE: ghcr.io/zowks/epitech-devcontainer
 
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         include:
           - runner: ubuntu-latest
@@ -41,7 +37,7 @@ jobs:
         id: build
         uses: docker/build-push-action@v6
         with:
-          outputs: type=image,name=${{ env.IMAGE_NAME }},push-by-digest=true,name-canonical=true,push=true
+          outputs: type=image,name=${{ env.IMAGE }},push-by-digest=true,name-canonical=true,push=true
 
       - name: Export digest
         run: |
@@ -57,8 +53,8 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-
   merge:
+    if: ${{ github.ref_name == 'main' }}
     runs-on: ubuntu-latest
     needs: build
 
@@ -83,5 +79,5 @@ jobs:
       - name: Create manifest list and push
         working-directory: /tmp/digests
         run: |
-          docker buildx imagetools create -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
-            $(printf '${{ env.IMAGE_NAME }}@sha256:%s ' *)
+          docker buildx imagetools create -t ${{ env.IMAGE }}:latest \
+            $(printf '${{ env.IMAGE }}@sha256:%s ' *)
