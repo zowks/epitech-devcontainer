@@ -7,16 +7,20 @@ LABEL maintainer="zowks <https://github.com/zowks>"
 LABEL org.opencontainers.image.source="https://github.com/zowks/epitech-devcontainer"
 
 COPY ./apt.packages /tmp/apt.packages
-RUN yes | unminimize \
-    && apt install -y $(cat /tmp/apt.packages) \
+# Ubuntu mantic reached EOL, so we need to change the sources.list to use old-releases.ubuntu.com instead
+RUN sed -i 's/archive\.ubuntu\.com\/ubuntu\|security\.ubuntu\.com\/ubuntu\|ports\.ubuntu\.com\/ubuntu-ports/old-releases\.ubuntu\.com\/ubuntu/g' /etc/apt/sources.list \
+    && apt update \
+    && apt install --no-install-recommends -y $(cat /tmp/apt.packages) \
+    && yes | unminimize \
+    && rm -rf /var/lib/apt/lists/* \
     && rm /tmp/apt.packages
 
 RUN localedef -i en_US -f UTF-8 en_US.UTF-8
 
 RUN curl -sSL https://get.haskellstack.org/ | sh
 
-RUN npm install -g bun \
-    && npm cache clean --force
+RUN curl -fsSL https://bun.sh/install | bash \
+    && mv /root/.bun/bin/bun /usr/local/bin/bun
 
 # Build Epitech's vera++ binary in parallel
 FROM base AS banana

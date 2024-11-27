@@ -16,7 +16,9 @@ ffmpeg
 fish
 flac
 gcovr
+git
 golang
+gnupg
 ksh
 liballegro5-dev
 libboost1.74-all-dev
