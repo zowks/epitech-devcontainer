@@ -39,9 +39,8 @@ RUN git clone "https://github.com/Epitech/lambdananas.git" /tmp/lambdananas \
 
 # Build Criterion
 FROM base
-RUN git clone "https://github.com/Snaipe/Criterion.git" /tmp/criterion \
+RUN git clone "https://github.com/Snaipe/Criterion.git" --branch "v2.4.2" /tmp/criterion \
     && cd /tmp/criterion \
-    && git checkout master \
     && meson setup build \
     && meson compile -C build \
     && meson install -C build \
