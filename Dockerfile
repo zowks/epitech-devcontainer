@@ -7,7 +7,9 @@ LABEL maintainer="zowks <https://github.com/zowks>"
 LABEL org.opencontainers.image.source="https://github.com/zowks/epitech-devcontainer"
 
 COPY ./apt.packages /tmp/apt.packages
-RUN apt update \
+# Ubuntu mantic reached EOL, so we need to change the sources.list to use old-releases.ubuntu.com instead
+RUN sed -i 's/archive\.ubuntu\.com\|security\.ubuntu\.com/old-releases\.ubuntu\.com/g' /etc/apt/sources.list \
+    && apt update \
     && apt install --no-install-recommends -y $(cat /tmp/apt.packages) \
     && yes | unminimize \
     && rm -rf /var/lib/apt/lists/* \
