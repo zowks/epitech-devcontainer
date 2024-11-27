@@ -8,8 +8,7 @@ LABEL org.opencontainers.image.source="https://github.com/zowks/epitech-devconta
 
 COPY ./apt.packages /tmp/apt.packages
 # Ubuntu mantic reached EOL, so we need to change the sources.list to use old-releases.ubuntu.com instead
-RUN sed -i 's/archive\.ubuntu\.com\|security\.ubuntu\.com\|ports\.ubuntu\.com/old-releases\.ubuntu\.com/g' /etc/apt/sources.list \
-    && sed -i 's/ubuntu-ports/ubuntu/g' /etc/apt/sources.list \
+RUN sed -i 's/archive\.ubuntu\.com\/ubuntu\|security\.ubuntu\.com\/ubuntu\|ports\.ubuntu\.com\/ubuntu-ports/old-releases\.ubuntu\.com\/ubuntu/g' /etc/apt/sources.list \
     && apt update \
     && apt install --no-install-recommends -y $(cat /tmp/apt.packages) \
     && yes | unminimize \
