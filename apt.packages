@@ -114,6 +114,7 @@ php-phar-io-version
 php-php-gettext
 php-tokenizer
 php-xml
+pulseaudio
 python3
 python3-clang
 python3-dev
