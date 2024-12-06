@@ -57,7 +57,7 @@ COPY --from=lambdananas /usr/local/bin/lambdananas /usr/local/bin/lambdananas
 # Create tek user and finalize image
 RUN userdel -r ubuntu \
     && groupadd --gid 1000 tek \
-    && useradd -m tek --uid 1000 --gid tek --password "" \
+    && useradd -m tek --uid 1000 --gid tek --password "" -s /bin/bash \
     && usermod -aG sudo tek
 USER tek
 
