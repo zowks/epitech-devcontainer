@@ -58,7 +58,8 @@ COPY --from=lambdananas /usr/local/bin/lambdananas /usr/local/bin/lambdananas
 RUN userdel -r ubuntu \
     && groupadd --gid 1000 tek \
     && useradd -m tek --uid 1000 --gid tek --password "" -s /bin/bash \
-    && usermod -aG sudo tek
+    && usermod -aG sudo tek \
+    && usermod -aG audio tek
 USER tek
 
 ENV LANG=en_US.utf8 LANGUAGE=en_US:en LC_ALL=en_US.utf8 PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
