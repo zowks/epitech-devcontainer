@@ -39,9 +39,8 @@ RUN git clone "https://github.com/Epitech/lambdananas.git" /tmp/lambdananas \
 
 # Build Criterion
 FROM base
-RUN git clone "https://github.com/Snaipe/Criterion.git" /tmp/criterion \
+RUN git clone "https://github.com/Snaipe/Criterion.git" --branch "v2.4.2" /tmp/criterion \
     && cd /tmp/criterion \
-    && git checkout master \
     && meson setup build \
     && meson compile -C build \
     && meson install -C build \
@@ -58,8 +57,9 @@ COPY --from=lambdananas /usr/local/bin/lambdananas /usr/local/bin/lambdananas
 # Create tek user and finalize image
 RUN userdel -r ubuntu \
     && groupadd --gid 1000 tek \
-    && useradd -m tek --uid 1000 --gid tek --password "" \
-    && usermod -aG sudo tek
+    && useradd -m tek --uid 1000 --gid tek --password "" -s /bin/bash \
+    && usermod -aG sudo tek \
+    && usermod -aG audio tek
 USER tek
 
 ENV LANG=en_US.utf8 LANGUAGE=en_US:en LC_ALL=en_US.utf8 PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
