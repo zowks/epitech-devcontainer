@@ -24,7 +24,7 @@ RUN curl -fsSL https://bun.sh/install | bash \
 
 # Build Epitech's vera++ binary in parallel
 FROM epitech-devcontainer AS banana
-RUN git clone "https://github.com/Epitech/banana-vera.git" --branch "v1.3.0-ubuntu" /tmp/banana-vera \
+RUN git clone "https://github.com/Epitech/banana-vera.git" --branch "v1.3.0-ubuntu" --depth 1 /tmp/banana-vera \
     && cd /tmp/banana-vera \
     && cmake . -DVERA_LUA=OFF -DPANDOC=OFF -DVERA_USE_SYSTEM_BOOST=ON \
     && make -j \
@@ -32,7 +32,7 @@ RUN git clone "https://github.com/Epitech/banana-vera.git" --branch "v1.3.0-ubun
 
 # Build lambdananas binary in parallel
 FROM epitech-devcontainer AS lambdananas
-RUN git clone "https://github.com/Epitech/lambdananas.git" --branch "v2.4.3.2" /tmp/lambdananas \
+RUN git clone "https://github.com/Epitech/lambdananas.git" --branch "v2.4.3.2" --depth 1 /tmp/lambdananas \
     && cd /tmp/lambdananas \
     && stack build \
     && cp $(stack path --local-install-root)/bin/lambdananas-exe /usr/local/bin/lambdananas
@@ -45,7 +45,7 @@ RUN cd /tmp/coding-style-checker \
 
 # Build Criterion
 FROM epitech-devcontainer
-RUN git clone "https://github.com/Snaipe/Criterion.git" --branch "v2.4.2" /tmp/criterion \
+RUN git clone "https://github.com/Snaipe/Criterion.git" --branch "v2.4.2" --depth 1 /tmp/criterion \
     && cd /tmp/criterion \
     && meson setup build \
     && meson compile -C build \
