@@ -37,6 +37,12 @@ RUN git clone "https://github.com/Epitech/lambdananas.git" /tmp/lambdananas \
     && stack build \
     && cp $(stack path --local-install-root)/bin/lambdananas-exe /usr/local/bin/lambdananas
 
+# Bundle coding-style cli in parallel
+FROM base AS cs
+COPY ./coding-style-checker /tmp/coding-style-checker
+RUN cd /tmp/coding-style-checker \
+    && bun run bundle
+
 # Build Criterion
 FROM base
 RUN git clone "https://github.com/Snaipe/Criterion.git" --branch "v2.4.2" /tmp/criterion \
@@ -53,6 +59,10 @@ RUN git clone "https://github.com/Snaipe/Criterion.git" --branch "v2.4.2" /tmp/c
 COPY --from=banana /usr/local/bin/vera++ /usr/local/bin/vera++
 COPY --from=coding-style-checker /usr/local/lib/vera++ /usr/local/lib/vera++
 COPY --from=lambdananas /usr/local/bin/lambdananas /usr/local/bin/lambdananas
+COPY --from=cs /tmp/coding-style-checker/dist/main.js /usr/local/bin/coding-style
+
+# Create a shorter symlink to the coding-style cli
+RUN ln -s /usr/local/bin/coding-style /usr/local/bin/cs
 
 # Create tek user and finalize image
 RUN userdel -r ubuntu \
