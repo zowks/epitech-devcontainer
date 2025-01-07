@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE: ghcr.io/zowks/epitech-devcontainer
+  IMAGE: ghcr.io/${{ github.repository }}
 
 jobs:
   build:
