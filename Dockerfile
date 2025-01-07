@@ -1,8 +1,8 @@
 # This image will be used to copy Epitech's vera++ set of rules
-FROM ghcr.io/epitech/coding-style-checker:latest AS coding-style-checker
+FROM ghcr.io/epitech/coding-style-checker:latest AS vera-rules
 
 # Install packages
-FROM ubuntu:mantic AS base
+FROM ubuntu:mantic AS epitech-devcontainer
 LABEL maintainer="zowks <https://github.com/zowks>"
 LABEL org.opencontainers.image.source="https://github.com/zowks/epitech-devcontainer"
 
@@ -23,7 +23,7 @@ RUN curl -fsSL https://bun.sh/install | bash \
     && mv /root/.bun/bin/bun /usr/local/bin/bun
 
 # Build Epitech's vera++ binary in parallel
-FROM base AS banana
+FROM epitech-devcontainer AS banana
 RUN git clone "https://github.com/Epitech/banana-vera.git" /tmp/banana-vera \
     && cd /tmp/banana-vera \
     && cmake . -DVERA_LUA=OFF -DPANDOC=OFF -DVERA_USE_SYSTEM_BOOST=ON \
@@ -31,20 +31,20 @@ RUN git clone "https://github.com/Epitech/banana-vera.git" /tmp/banana-vera \
     && make install
 
 # Build lambdananas binary in parallel
-FROM base AS lambdananas
+FROM epitech-devcontainer AS lambdananas
 RUN git clone "https://github.com/Epitech/lambdananas.git" /tmp/lambdananas \
     && cd /tmp/lambdananas \
     && stack build \
     && cp $(stack path --local-install-root)/bin/lambdananas-exe /usr/local/bin/lambdananas
 
 # Bundle coding-style cli in parallel
-FROM base AS cs
+FROM epitech-devcontainer AS coding-style-checker
 COPY ./coding-style-checker /tmp/coding-style-checker
 RUN cd /tmp/coding-style-checker \
     && bun run bundle
 
 # Build Criterion
-FROM base
+FROM epitech-devcontainer
 RUN git clone "https://github.com/Snaipe/Criterion.git" --branch "v2.4.2" /tmp/criterion \
     && cd /tmp/criterion \
     && meson setup build \
@@ -57,9 +57,9 @@ RUN git clone "https://github.com/Snaipe/Criterion.git" --branch "v2.4.2" /tmp/c
 
 # Merge previous stages work
 COPY --from=banana /usr/local/bin/vera++ /usr/local/bin/vera++
-COPY --from=coding-style-checker /usr/local/lib/vera++ /usr/local/lib/vera++
+COPY --from=vera-rules /usr/local/lib/vera++ /usr/local/lib/vera++
 COPY --from=lambdananas /usr/local/bin/lambdananas /usr/local/bin/lambdananas
-COPY --from=cs /tmp/coding-style-checker/dist/main.js /usr/local/bin/coding-style
+COPY --from=coding-style-checker /tmp/coding-style-checker/dist/main.js /usr/local/bin/coding-style
 
 # Create a shorter symlink to the coding-style cli
 RUN ln -s /usr/local/bin/coding-style /usr/local/bin/cs
