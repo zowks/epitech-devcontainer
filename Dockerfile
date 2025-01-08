@@ -32,7 +32,8 @@ RUN git clone "https://github.com/Epitech/banana-vera.git" --branch "v1.3.0-ubun
 
 # Build lambdananas binary in parallel
 FROM epitech-devcontainer AS lambdananas
-RUN git clone "https://github.com/Epitech/lambdananas.git" --branch "v2.4.3.2" --depth 1 /tmp/lambdananas \
+# No branch specified for now as the latest release does not include arm64 support
+RUN git clone "https://github.com/Epitech/lambdananas.git" --depth 1 /tmp/lambdananas \
     && cd /tmp/lambdananas \
     && stack build \
     && cp $(stack path --local-install-root)/bin/lambdananas-exe /usr/local/bin/lambdananas
