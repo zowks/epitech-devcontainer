@@ -1,0 +1,3 @@
+[submodule "coding-style-checker"]
+	path = coding-style-checker
+	url = https://github.com/zowks/epitech-coding-style-checker.git
